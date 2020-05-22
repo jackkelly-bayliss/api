@@ -15,9 +15,9 @@ app.get("/api", (req, res) => {
   });
 });
 
-//app.get("/api/nowplaying", (req, res) => {
-//  res.json(APIs);
-//});
+app.get("/api/nowplaying", (req, res) => {
+  res.json(Object.keys(APIs));
+});
 
 app.get("/api/nowplaying/:radio", async (req, res) => {
   const { radio: radioname } = req.params;
