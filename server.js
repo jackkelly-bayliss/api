@@ -34,22 +34,26 @@ app.get("/api/nowplaying/:radio", async (req, res) => {
     try {
       const { body } = await snek.get(radio.endpoint);
       const {
-          listeners: {
-              unique: listeners
-          },
-          live: {
-              is_live: live,
-              streamer_name: dj
-          },
-          now_playing: np,
-          now_playing: {
-              song
-          },
-          song_history: history
+        station: {
+          listen_url: stream
+        },
+        listeners: {
+          unique: listeners
+        },
+        live: {
+          is_live: live,
+          streamer_name: dj
+        },
+        now_playing: np,
+        now_playing: {
+          song
+        },
+        song_history: history
       } = body;
       res.json({
         success: true,
         data: {
+          stream,
           listeners,
           dj: live ? `DJ ${dj}` : 'Auto DJ',
           song: {
@@ -80,14 +84,31 @@ app.get("/api/nowplaying/:radio", async (req, res) => {
       });
     };
   } else {
-    if (radio.type == 'bounce') {
+    if (radio.type == 'Bounce') {
       const { body } = await snek.get(radio.endpoint);
-      const {
+      let {
         listeners: {
           total: listeners
         },
-        dj: 
+        presenter: {
+          name: dj
+        },
+        song
       } = body;
+      res.json({
+        success: true,
+        data: {
+          stream: 'https://live.boun.cc',
+          listeners,
+          dj: dj == 'Bounce' ? 'Auto DJ' : `DJ ${dj}`,
+          song: {
+            name: song.track,
+            artist: song.artist,
+            album: song.album_name,
+            art: song.cover
+          }
+        }
+      });
     } else
     res.status(500).json({
       success: false,
