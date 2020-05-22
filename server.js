@@ -16,7 +16,7 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/nowplaying", (req, res) => {
-  res.json({ success: false });
+  res.json(Object.keys(APIs););
 });
 
 app.get("/api/nowplaying/:radio", async (req, res) => {
