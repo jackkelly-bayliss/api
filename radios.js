@@ -8,5 +8,10 @@ module.exports = {
     type: 'Bounce',
     endpoint: 'https://stats.boun.cc/',
     stream: 'https://live.boun.cc'
+  },
+  nova: {
+    type: 'AzuraCast',
+    endpoint: 'https://azuracast.livida.net/nowplaying/1',
+    stream: 'https://live.boun.cc'
   }
 }
