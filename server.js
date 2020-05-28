@@ -1,38 +1,40 @@
-const express = require("express");
-const app = express();
-const snek = require('snekfetch');
-const APIs = require('./radios.js');
+const express = require('express')
+const app = express()
+const snek = require('snekfetch')
+const APIs = require('./radios.js')
 
-app.use(express.static("public"));
+app.use(express.static('public'))
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/views/index.html");
-});
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/views/index.html')
+})
 
-app.get("/api", (req, res) => {
+app.get('/api', (req, res) => {
   res.json({
-    success: "true"
-  });
-});
+    success: 'true'
+  })
+})
 
-app.get("/api/nowplaying", (req, res) => {
-  res.json(Object.keys(APIs));
-});
+app.get('/api/nowplaying', (req, res) => {
+  res.json(Object.keys(APIs))
+})
 
-app.get("/api/nowplaying/:radio", async (req, res) => {
-  const { radio: radioname } = req.params;
-  const radio = APIs[radioname.toLowerCase().trim()];
-  if (!radio) return res.status(404).json({
-    success: false,
-    error: {
-      code: 404,
-      text: 'Not found',
-      full: 'The radio you requested for could not be found.'
-    }
-  });
+app.get('/api/nowplaying/:radio', async (req, res) => {
+  const { radio: radioname } = req.params
+  const radio = APIs[radioname.toLowerCase().trim()]
+  if (!radio) {
+    return res.status(404).json({
+      success: false,
+      error: {
+        code: 404,
+        text: 'Not found',
+        full: 'The radio you requested for could not be found.'
+      }
+    })
+  }
   if (radio.type == 'AzuraCast') {
     try {
-      const { body } = await snek.get(radio.endpoint);
+      const { body } = await snek.get(radio.endpoint)
       const {
         station: {
           listen_url: stream
@@ -49,7 +51,7 @@ app.get("/api/nowplaying/:radio", async (req, res) => {
           song
         },
         song_history: history
-      } = body;
+      } = body
       res.json({
         success: true,
         data: {
@@ -63,17 +65,17 @@ app.get("/api/nowplaying/:radio", async (req, res) => {
             art: song.art
           },
           history: history.slice(0, 5).map((item) => {
-            const { song } = item;
+            const { song } = item
             return {
               name: song.title,
               artist: song.artist,
               album: song.album,
               art: song.art
-            };
+            }
           })
         }
-      });
-    } catch(err) {
+      })
+    } catch (err) {
       res.status(500).json({
         success: 'false',
         error: {
@@ -81,12 +83,12 @@ app.get("/api/nowplaying/:radio", async (req, res) => {
           text: 'Internal server error',
           full: 'An error occurred whilst fetching from the API'
         }
-      });
+      })
     };
   } else {
     if (radio.type == 'Bounce') {
-      const { body } = await snek.get(radio.endpoint);
-      let {
+      const { body } = await snek.get(radio.endpoint)
+      const {
         listeners: {
           total: listeners
         },
@@ -94,7 +96,7 @@ app.get("/api/nowplaying/:radio", async (req, res) => {
           name: dj
         },
         song
-      } = body;
+      } = body
       res.json({
         success: true,
         data: {
@@ -108,19 +110,20 @@ app.get("/api/nowplaying/:radio", async (req, res) => {
             art: song.cover
           }
         }
-      });
-    } else
-    res.status(500).json({
-      success: false,
-      error: {
-        code: 500,
-        text: 'Internal server error',
-        full: 'oi this hasn\'t been finished yet you impatient little shi--'
-      }
-    });
+      })
+    } else {
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 500,
+          text: 'Internal server error',
+          full: 'oi this hasn\'t been finished yet you impatient little shi--'
+        }
+      })
+    }
   }
-});
+})
 
 const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
+  console.log('Your app is listening on port ' + listener.address().port)
+})

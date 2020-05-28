@@ -1,28 +1,27 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "hello-express",
-  "version": "0.0.1",
-  "description": "A simple Node app built on Express, instantly up and running.",
+  "name": "livida-api",
+  "version": "1.0.0",
+  "description": "An API for Livida",
   "main": "server.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LividaST/api.git"
+  },
+  "author": "Livida",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LividaST/api/issues"
+  },
+  "homepage": "https://github.com/LividaST/api#readme",
   "dependencies": {
     "express": "^4.17.1",
     "snekfetch": "^4.0.4"
   },
-  "engines": {
-    "node": "12.x"
-  },
-  "repository": {
-    "url": "https://glitch.com/edit/#!/hello-express"
-  },
-  "license": "MIT",
-  "keywords": [
-    "node",
-    "glitch",
-    "express"
-  ]
+  "devDependencies": {
+    "standard": "^14.3.4"
+  }
 }
