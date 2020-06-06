@@ -83,7 +83,33 @@ app.get("/api/nowplaying/:radio", async (req, res) => {
         }
       });
     };
-  } else
+  } else {
+    if (radio.type == 'Bounce') {
+      const { body } = await snek.get(radio.endpoint);
+      let {
+        listeners: {
+          total: listeners
+        },
+        presenter: {
+          name: dj
+        },
+        song
+      } = body;
+      res.json({
+        success: true,
+        data: {
+          stream: 'https://live.boun.cc',
+          listeners,
+          dj: dj == 'Bounce' ? 'Auto DJ' : `DJ ${dj}`,
+          song: {
+            name: song.track,
+            artist: song.artist,
+            album: song.album_name,
+            art: song.cover
+          }
+        }
+      });
+    } else
     res.status(500).json({
       success: false,
       error: {
@@ -93,7 +119,7 @@ app.get("/api/nowplaying/:radio", async (req, res) => {
       }
     });
   }
-);
+});
 
 const listener = app.listen(1400, () => {
   console.log("Your app is listening on port " + listener.address().port);
