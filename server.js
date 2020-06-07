@@ -149,6 +149,6 @@ app.get('/api/nowplaying/:radio', async (req, res) => {
   };
 })
 
-const listener = app.listen(1400, () => {
+const listener = app.listen(3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
