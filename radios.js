@@ -7,5 +7,9 @@ module.exports = {
   keyfm: {
     type: 'KeyFM',
     endpoint: 'https://api.keyfm.net/stats'
+  },
+  aqua: {
+    type: 'Aqua',
+    endpoint: 'https://api.itsaqua.net'
   }
 }
