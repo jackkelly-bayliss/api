@@ -32,7 +32,7 @@ app.get('/api/nowplaying/:radio', async (req, res) => {
       }
     })
   }
-  if (radio.type == 'AzuraCast') {
+  if (radio.type === 'AzuraCast') {
     try {
       const { body } = await snek.get(radio.endpoint)
       const {
@@ -46,7 +46,6 @@ app.get('/api/nowplaying/:radio', async (req, res) => {
           is_live: live,
           streamer_name: dj
         },
-        now_playing: np,
         now_playing: {
           song
         },
@@ -86,7 +85,7 @@ app.get('/api/nowplaying/:radio', async (req, res) => {
       })
     };
   } else {
-    if (radio.type == 'Bounce') {
+    if (radio.type === 'Bounce') {
       const { body } = await snek.get(radio.endpoint)
       const {
         listeners: {
@@ -102,7 +101,7 @@ app.get('/api/nowplaying/:radio', async (req, res) => {
         data: {
           stream: 'https://live.boun.cc',
           listeners,
-          dj: dj == 'Bounce' ? 'Auto DJ' : `DJ ${dj}`,
+          dj: dj === 'Bounce' ? 'Auto DJ' : `DJ ${dj}`,
           song: {
             name: song.track,
             artist: song.artist,
@@ -112,7 +111,7 @@ app.get('/api/nowplaying/:radio', async (req, res) => {
         }
       })
     } else {
-      if (radio.type = 'KeyFM') {
+      if (radio.type === 'KeyFM') {
         const { body } = await snek.get(radio.endpoint)
         const {
           listeners: {
@@ -129,7 +128,7 @@ app.get('/api/nowplaying/:radio', async (req, res) => {
           data: {
             stream: 'https://radio.keyfm.net',
             listeners,
-            dj: autoDJ == true ? 'Auto DJ' : `DJ ${username}`,
+            dj: autoDJ === true ? 'Auto DJ' : `DJ ${username}`,
             song: {
               name: playing.song,
               artist: playing.artist
